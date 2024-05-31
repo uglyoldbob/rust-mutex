@@ -1,3 +1,5 @@
+pub use parking_lot;
+
 pub struct MutexGuard<'a, T> {
     mutex: &'a Mutex<T>,
     inner: parking_lot::MutexGuard<'a, T>,
