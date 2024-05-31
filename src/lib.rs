@@ -27,7 +27,7 @@ impl<'a, T> Drop for MutexGuard<'a, T> {
 
 pub struct Mutex<T> {
     inner: parking_lot::Mutex<T>,
-    obtained: parking_lot::Mutex<Option<std::backtrace::Backtrace>>,
+    obtained: parking_lot::Mutex<Option<backtrace::Backtrace>>,
 }
 
 impl<T> Mutex<T> {
@@ -43,14 +43,14 @@ impl<T> Mutex<T> {
         if let Some(s) = t.as_ref() {
             println!("Deadlock: {:?}", s);
         }
-        t.replace(std::backtrace::Backtrace::force_capture());
+        t.replace(backtrace::Backtrace::new());
         MutexGuard {
             mutex: &self,
             inner: self.inner.lock(),
         }
     }
 
-    pub fn is_obtained(&self) -> &parking_lot::Mutex<Option<std::backtrace::Backtrace>> {
+    pub fn is_obtained(&self) -> &parking_lot::Mutex<Option<backtrace::Backtrace>> {
         &self.obtained
     }
 

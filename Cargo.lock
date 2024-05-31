@@ -179,6 +179,7 @@ dependencies = [
 name = "rust-mutex"
 version = "0.1.0"
 dependencies = [
+ "backtrace",
  "parking_lot",
 ]
 
