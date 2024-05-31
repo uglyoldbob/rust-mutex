@@ -40,7 +40,7 @@ impl<T> Mutex<T> {
 
     pub fn lock(&self) -> MutexGuard<'_, T> {
         let mut t = self.is_obtained().lock();
-        if let Some(s) = self.is_obtained().lock().as_ref() {
+        if let Some(s) = t.as_ref() {
             println!("Deadlock: {:?}", s);
         }
         t.replace(std::backtrace::Backtrace::force_capture());
