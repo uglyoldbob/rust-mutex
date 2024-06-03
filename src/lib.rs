@@ -1,12 +1,12 @@
-pub use parking_lot;
+pub use tracing_mutex::parking_lot;
 
 pub struct MutexGuard<'a, T> {
     mutex: &'a Mutex<T>,
-    inner: parking_lot::MutexGuard<'a, T>,
+    inner: tracing_mutex::parking_lot::MutexGuard<'a, T>,
 }
 
 impl<'a, T> std::ops::Deref for MutexGuard<'a, T> {
-    type Target = parking_lot::MutexGuard<'a, T>;
+    type Target = tracing_mutex::parking_lot::MutexGuard<'a, T>;
 
     fn deref(&self) -> &Self::Target {
         &self.inner
@@ -26,15 +26,15 @@ impl<'a, T> Drop for MutexGuard<'a, T> {
 }
 
 pub struct Mutex<T> {
-    inner: parking_lot::Mutex<T>,
-    obtained: parking_lot::Mutex<Option<backtrace::Backtrace>>,
+    inner: tracing_mutex::parking_lot::Mutex<T>,
+    obtained: tracing_mutex::parking_lot::Mutex<Option<backtrace::Backtrace>>,
 }
 
 impl<T> Mutex<T> {
     pub fn new(t: T) -> Self {
         Self {
-            inner: parking_lot::Mutex::new(t),
-            obtained: parking_lot::Mutex::new(None),
+            inner: tracing_mutex::parking_lot::Mutex::new(t),
+            obtained: tracing_mutex::parking_lot::Mutex::new(None),
         }
     }
 
@@ -50,7 +50,7 @@ impl<T> Mutex<T> {
         }
     }
 
-    pub fn is_obtained(&self) -> &parking_lot::Mutex<Option<backtrace::Backtrace>> {
+    pub fn is_obtained(&self) -> &tracing_mutex::parking_lot::Mutex<Option<backtrace::Backtrace>> {
         &self.obtained
     }
 
